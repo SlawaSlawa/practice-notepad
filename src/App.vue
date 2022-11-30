@@ -1,26 +1,89 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="notepad">
+    <Title />
+    <div class="container">
+      <aside class="notes-list-block">
+        <NotesList :notes="notesList"/>
+      </aside>
+      <main class="main">
+        <NoteBlock />
+      </main>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Title from '@/components/Title.vue'
+import NotesList from '@/components/NotesList.vue'
+import NoteBlock from '@/components/NoteBlock.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Title, NotesList, NoteBlock,
+  },
+  data() {
+    return {
+      notesList: [
+        {
+          id: 1,
+          text: 'Lorem'
+        },
+        {
+          id: 2,
+          text: 'Tfsajfsadfklsd'
+        },
+        {
+          id: 3,
+          text: 'LKHJKHhkjhkjhjkhjkh jkhkjhjk LKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjk'
+        },
+      ]
+    }
   }
 }
 </script>
 
 <style lang="scss">
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 20px;
+}
+
+.notes-list-block {
+  border: 1px solid #2c3e50;
+  border-radius: 5px;
+  padding: 20px;
+  width: 20%;
+}
+
+.notepad {
+  height: 100vh;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
 }
 </style>
