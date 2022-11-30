@@ -31,7 +31,7 @@
                 this.$emit('newNote', note)
             },
             inputText() {
-                if (this.text.length > 0) {
+                if (this.text.trim().length > 0) {
                     this.isDisabled = false
                 } else {
                     this.isDisabled = true
