@@ -3,10 +3,18 @@
     <Title />
     <div class="container">
       <aside class="notes-list-block">
-        <NotesList :notes="notesList"/>
+        <NotesList 
+          :notes="notesList"
+          @showNote="handleShowNote"  
+        />
       </aside>
       <main class="main">
-        <NoteBlock @newNote="handleNewNote"/>
+        <NoteBlock 
+          @newNote="handleNewNote"
+          @changeNote="handleChangeNote"
+          :note="note"
+          ref="noteblock"  
+        />
       </main>
     </div>
   </div>
@@ -22,7 +30,7 @@ export default {
   components: {
     Title, NotesList, NoteBlock,
   },
-  emits: ['newNote'],
+  emits: ['newNote', 'showNote', 'changeNote'],
   data() {
     return {
       notesList: [
@@ -38,12 +46,28 @@ export default {
           id: 3,
           text: 'LKHJKHhkjhkjhjkhjkh jkhkjhjk LKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjk'
         },
-      ]
+      ],
+      note: {},
     }
   },
   methods: {
     handleNewNote(note) {
       this.notesList.unshift(note)
+    },
+    handleShowNote(note) {
+      this.$refs.noteblock.showNote(note)
+    },
+    handleChangeNote(changeText, id) {
+      this.notesList = this.notesList.map(note => {
+        if(note.id === id) {
+          return {
+            id: id,
+            text: changeText,
+          }
+        } else {
+          return note
+        }
+      })
     }
   }
 }

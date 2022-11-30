@@ -15,20 +15,33 @@
 <script>
     export default {
         name: 'NoteBlock',
+        props: {
+            note: {
+                type: Object,
+            }
+        },
         data() {
             return {
+                id: null,
                 text: '',
                 isDisabled: true,
             }
         },
         methods: {
             saveNote() {
-                const note = {
-                    id: Date.now(),
-                    text: this.text
+                if (this.id) {
+                    this.$emit('changeNote', this.text, this.id)
+                    this.id = null
+                } else {
+                    const note = {
+                        id: Date.now(),
+                        text: this.text
+                    }
+                    this.text = ''
+                    this.$emit('newNote', note)
                 }
                 this.text = ''
-                this.$emit('newNote', note)
+                this.id = null
             },
             inputText() {
                 if (this.text.trim().length > 0) {
@@ -36,6 +49,11 @@
                 } else {
                     this.isDisabled = true
                 }
+            },
+            showNote(note) {
+                this.text = note.text
+                this.isDisabled = false
+                this.id = note.id
             }
         }
     }

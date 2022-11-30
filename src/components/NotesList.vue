@@ -2,7 +2,9 @@
     <ul class="notes-list">
         <li class="notes-list__item" 
             v-for="note in notes" 
-            :key="note.id">
+            :key="note.id"
+            @click="showNote(note)"    
+        >
                 {{ note.text }}
         </li>
     </ul>
@@ -14,6 +16,11 @@
         props: {
             notes: {
                 type: Array
+            }
+        },
+        methods: {
+            showNote(note) {
+                this.$emit('showNote', note)
             }
         }
     }
