@@ -6,7 +6,7 @@
         <NotesList :notes="notesList"/>
       </aside>
       <main class="main">
-        <NoteBlock />
+        <NoteBlock @newNote="handleNewNote"/>
       </main>
     </div>
   </div>
@@ -22,6 +22,7 @@ export default {
   components: {
     Title, NotesList, NoteBlock,
   },
+  emits: ['newNote'],
   data() {
     return {
       notesList: [
@@ -38,6 +39,11 @@ export default {
           text: 'LKHJKHhkjhkjhjkhjkh jkhkjhjk LKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjk'
         },
       ]
+    }
+  },
+  methods: {
+    handleNewNote(note) {
+      this.notesList.unshift(note)
     }
   }
 }
@@ -75,7 +81,9 @@ export default {
   border: 1px solid #2c3e50;
   border-radius: 5px;
   padding: 20px;
+  overflow-y: auto;
   width: 20%;
+  max-height: 50vh;
 }
 
 .notepad {

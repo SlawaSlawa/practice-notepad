@@ -1,8 +1,13 @@
 <template>
     <div class="note-block">
-        <textarea class="note-block__area" v-model="text"></textarea>
+        <textarea 
+            class="note-block__area" 
+            v-model="text"
+            @input="inputText"
+            ></textarea>
         <button class="btn btn-save"
             @click="saveNote"
+            :disabled="isDisabled"
         >Save Note</button>
     </div>
 </template>
@@ -12,12 +17,25 @@
         name: 'NoteBlock',
         data() {
             return {
-                text: ''
+                text: '',
+                isDisabled: true,
             }
         },
         methods: {
             saveNote() {
-                console.log(this.text);
+                const note = {
+                    id: Date.now(),
+                    text: this.text
+                }
+                this.text = ''
+                this.$emit('newNote', note)
+            },
+            inputText() {
+                if (this.text.length > 0) {
+                    this.isDisabled = false
+                } else {
+                    this.isDisabled = true
+                }
             }
         }
     }
