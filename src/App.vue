@@ -118,4 +118,18 @@ export default {
   width: 100%;
   height: 100%;
 }
+
+.delete-btn {
+  position: absolute;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  top: 5px;
+  right: 5px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  overflow: hidden;
+}
 </style>
