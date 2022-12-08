@@ -5,10 +5,18 @@
             v-model="text"
             @input="inputText"
             ></textarea>
-        <button class="btn btn-save"
-            @click="saveNote"
-            :disabled="isDisabled"
-        >Save Note</button>
+
+        <div class="note-block__btns-wrap">
+            <button class="btn btn-clear"
+                @click="clearNote"
+            >Clear Note</button>
+            <button class="btn btn-save"
+                @click="saveNote"
+                :disabled="isDisabled"
+            >
+                Save Note
+            </button>
+        </div>
     </div>
 </template>
 
@@ -54,7 +62,11 @@
                 this.text = note.text
                 this.isDisabled = false
                 this.id = note.id
-            }
+            },
+            clearNote() {
+                this.text = ''
+                this.inputText()
+            },
         }
     }
 </script>
@@ -65,12 +77,14 @@
     }
     .note-block__area {
         font-size: 18px;
+        margin-bottom: 20px;
         padding: 20px;
         width: 100%;
         height: 200px;
     }
-    .btn-save {
-        display: block;
-        margin-left: auto;
+    .note-block__btns-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 </style>

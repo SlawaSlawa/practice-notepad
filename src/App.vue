@@ -5,13 +5,16 @@
       <aside class="notes-list-block">
         <NotesList 
           :notes="notesList"
-          @showNote="handleShowNote"  
+          @showNote="handleShowNote"
+          @deleteNote="handleDeleteNote"
+          ref="noteslist"  
         />
       </aside>
       <main class="main">
         <NoteBlock 
           @newNote="handleNewNote"
           @changeNote="handleChangeNote"
+          :changeId="changeId"
           :note="note"
           ref="noteblock"  
         />
@@ -30,29 +33,22 @@ export default {
   components: {
     Title, NotesList, NoteBlock,
   },
-  emits: ['newNote', 'showNote', 'changeNote'],
+  emits: ['newNote', 'showNote', 'changeNote', 'deleteNote'],
   data() {
     return {
-      notesList: [
-        {
-          id: 1,
-          text: 'Lorem'
-        },
-        {
-          id: 2,
-          text: 'Tfsajfsadfklsd'
-        },
-        {
-          id: 3,
-          text: 'LKHJKHhkjhkjhjkhjkh jkhkjhjk LKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjkLKHJKHhkjhkjhjkhjkh jkhkjhjk'
-        },
-      ],
+      notesList: JSON.parse(localStorage.getItem('notes-list')) || [],
       note: {},
+      changeId: '',
+      isSearch: false,
     }
   },
   methods: {
+    saveInLocalStorage(newNotesList) {
+      localStorage.setItem('notes-list', JSON.stringify(newNotesList))
+    },
     handleNewNote(note) {
       this.notesList.unshift(note)
+      this.saveInLocalStorage(this.notesList)
     },
     handleShowNote(note) {
       this.$refs.noteblock.showNote(note)
@@ -68,7 +64,14 @@ export default {
           return note
         }
       })
-    }
+      this.changeId = id
+      this.$refs.noteslist.changeSearchNotes(id, changeText)
+      this.saveInLocalStorage(this.notesList)
+    },
+    handleDeleteNote(id) {
+      this.notesList = this.notesList.filter(note => note.id !== id)
+      this.saveInLocalStorage(this.notesList)
+    },
   }
 }
 </script>
@@ -90,6 +93,7 @@ export default {
 
 .btn {
   cursor: pointer;
+  display: block;
 }
 
 .container {
